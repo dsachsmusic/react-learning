@@ -49,6 +49,10 @@ Set up React frontend to use Flask backend, which will do API calls, other proce
     - app.run(debug=True)
 	
 Configure Flask to act as the backend, that serves the React app (as static files)
+- import and use cors (allows cross origin requests ...i.e. requests from same server, more or less)
+  - from flask_cors import CORS
+  - cors(app)
+    - Note: there allows everyting...but there are parameters that can be used to be more secure
 - Run npm run build (against React App) to create directory with all the static files needed (i.e. create the Flask app)
 - Add "build" directory, with those files, to the directory where app.py lives
 - Install/Import Flask's send_from_directory library (?)
