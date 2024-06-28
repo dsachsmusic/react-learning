@@ -85,6 +85,11 @@ button:hover {
   margin-top: 10px;
 }
 
+.response-message {
+  color: green;
+  margin-top: 10px;
+}
+
 /* Grid Layout for Main Content */
 main {
   display: grid;

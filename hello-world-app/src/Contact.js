@@ -7,6 +7,7 @@ const Contact = () => {
     message: ''
   });
   const [error, setError] = useState(''); // State for managing error message
+  const [responseMessage, setResponseMessage] = useState(''); // State for managing response
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,6 +30,7 @@ const Contact = () => {
       if (response.ok) {
         const result = await response.json();
         console.log(result.message);
+        setResponseMessage(result.message);
         setError(''); // Clear any previous error message
       } else {
         setError('Failed to submit form. Please try again later.');
@@ -69,6 +71,7 @@ const Contact = () => {
         <button type="submit">Send Message</button>
       </form>
       {error && <p className="error-message">{error}</p>}
+      {responseMessage && <p className="response-message">{responseMessage}</p>}
     </section>
   );
 };
