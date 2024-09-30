@@ -1,0 +1,68 @@
+<html>
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Hello World with Firebase...for Crunchtime...learning</title>
+    </head>
+    <body>
+        <h1 id="hello"></h1>
+        <!--
+          Script ...importing Firebase, setting the configuration, and using it, via some Javascript code...
+          to set/change values in a firebase db, and update DOM, etc.   
+        -->
+        <script type="module">
+            // Import the functions we need from the SDKs we need....from CDN (which is fine for development work/learning)
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+            import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-database.js";
+            // ...here, we can Add SDKs for Firebase products that we want to use
+            // https://firebase.google.com/docs/web/setup#available-libraries
+        
+            // Firebase configuration
+            // obtained this in GCP, by creating a new project > new app, firebase
+            // which gives us our DB/the functionality from firebase...
+            const firebaseConfig = {
+              apiKey: "AIzaSyB2bqz-0Wn2btjfVMM3B1PO0hy_BKzIu-E",
+              authDomain: "crunchtime-firebase.firebaseapp.com",
+              projectId: "crunchtime-firebase",
+              storageBucket: "crunchtime-firebase.appspot.com",
+              messagingSenderId: "151570223506",
+              appId: "1:151570223506:web:a91fd337e990d4ff61714b"
+            };
+            // Initialize Firebase ... 
+            const app = initializeApp(firebaseConfig);
+            /* 
+            Reference to the Firebase Realtime Database associated with app
+            note: Firebase Realtime is hierarchical...nodes...with folder hierarchy like organization
+            */
+            const database = getDatabase(app);
+            /*
+            Use Firebase commads for working with the database...create a "reference", and create a "node" in the database (named 'message') where 
+            that reference points....simultaneously(?)
+            ...and, with .set, create an object, with key "text" and value "hello world!"
+            */
+            set(ref(database, 'message'), {
+              text: 'Hello, World!'
+            });
+            
+            /*
+            Use more Firebase commads...
+            create a reference to node "message", path "text"... 
+            and, with .on and snapshot, start an websocket connection to DB to... 
+            listen for changes...the "snapshot" is the current value "initially set to "hello world!"
+            ...snapshot.val() sets whatever the value is as the value for the element named "hello" (<h1 id="hello"></h1>) 
+            
+            */
+            onValue(ref(database, 'message'), (snapshot) => { 
+              let currentText = snapshot.val().text; // Accessing 'text' key
+
+                // Some regular old Javascript to get the current hour...
+                const currentHour = new Date().getHours();
+                if (currentHour >= 18) { // and....check if it's 6 PM or later
+                  currentText = "Good Evening, World!";
+                }
+              //...document.getElementById, and .innerText, are standard Javascript for modifying content...
+              document.getElementById('hello').innerText = currentText; // Accessing 'text' key
+            });
+        </script>
+    </body>
+  </html>
